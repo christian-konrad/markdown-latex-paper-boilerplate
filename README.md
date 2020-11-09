@@ -1,9 +1,4 @@
----
-description: >-
-  Scientific paper boilerplate for pandoc in markdown and $\LaTeX$
----
-
-# Scientific paper boilerplate for pandoc in markdown and $\LaTeX$
+# Scientific paper boilerplate for pandoc in markdown and LaTeX
 
 Write your well formatted professional paper, essay or thesis at ease with markdown and latex and export it as PDF (with bibliography).
 
