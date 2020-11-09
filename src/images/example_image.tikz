@@ -1,0 +1,113 @@
+\begin{tikzpicture}[auto, node distance=5cm, font=\small ]
+    \linespread{1.2}
+
+    \pgfdeclarelayer{background}
+    \pgfdeclarelayer{foreground}
+    \pgfsetlayers{background,main,foreground}
+    
+    \definecolor{source_color}{rgb}{1,1,0.95}
+    \definecolor{target_color}{rgb}{1,0.96,0.94}
+
+    \tikzstyle{connector} = [coordinate ]
+    
+    \tikzstyle{block} = [draw, rectangle, 
+            minimum height=3em, minimum width=8em, inner sep=0.8em, align=center]
+    \tikzstyle{mini_block} = [draw, rectangle, 
+            minimum height=1.3em, minimum width=1.7em, inner sep=0.2em, align=center, node distance=1cm]
+    \tikzstyle{group} = [draw, rectangle, draw=gray, inner sep=1em, align=left ]
+    \tikzstyle{group_out} = [draw, rectangle, fill=white, draw=white ]
+    
+    \tikzstyle{mini_correspondence} = [draw, signal,signal to=east and west, minimum height=1em, minimum width=2.5em, inner sep=0.4em ]
+
+    \tikzstyle{upper_node} = [anchor=south, font=\scriptsize ]
+    \tikzstyle{group_label} = [anchor=center, fill=white, font=\scriptsize, text=darkgray ]
+    
+    % ============================================
+    
+    % domain A
+
+    \node [mini_block ] (uml_in_1) {};
+    \node [mini_block, below of=uml_in_1, node distance=0.9cm ] (uml_in_2) {};
+    \node [mini_block, below left of=uml_in_1, node distance=2cm, xshift=0.4cm ] (uml_in_3) {};
+    
+    \draw [- ] (uml_in_1) -- (uml_in_2);
+    \draw [- ] (uml_in_1) -| (uml_in_3);
+    
+    \node [block, fit=(uml_in_1) (uml_in_2) (uml_in_3) ] (uml_in) {};
+    \node[label, fill=white, font=\scriptsize] at (uml_in.north) {Zu teilende Daten};
+
+    \node [mini_block, left of=uml_in_1, node distance=3.7cm ] (uml_out_1) {};
+    
+    \node [mini_block, below of=uml_out_1, node distance=0.7cm ] (uml_out_2) {};
+    \node [mini_block, below of=uml_out_2, node distance=0.7cm ] (uml_out_3) {};
+    \node [mini_block, right of=uml_out_2 ] (uml_out_4) {};
+    \node [mini_block, below of=uml_out_4, node distance=0.7cm ] (uml_out_5) {};
+    
+    \draw [- ] (uml_out_1) -- (uml_out_2);
+    \draw [- ] (uml_out_2) -- (uml_out_4);
+    \draw [- ] (uml_out_2) -- (uml_out_3);
+    \draw [- ] (uml_out_4) -- (uml_out_5);
+    
+    \draw [- ] (uml_out_1) -- (uml_in_1);
+    
+    \node [block, above of=uml_out_1, node distance=2cm, anchor=west, xshift=-0.24cm ] (business_logic_a) {Geschäftslogik};
+    
+    \node [block, fit=(uml_in) (uml_out_1) (uml_out_2) (uml_out_3) (uml_out_4) (uml_out_5) ] (data_a) {};
+    
+    \draw [-Triangle ] ([xshift=-0.75cm]business_logic_a) -- (data_a);
+    
+    \node [block, fit=(uml_in) (uml_out_1) (uml_out_2) (uml_out_3) (uml_out_4) (uml_out_5) (business_logic_a) ] (domain_a) {};
+    \node[label, fill=white] at (domain_a.north) {Domäne A};
+
+    % domain B
+
+    \node [mini_block, right of=uml_in_1, node distance=6.3cm ] (uml_in_b_1) {};
+    \node [mini_block, below left of=uml_in_b_1, node distance=1.3cm, xshift=0.2cm ] (uml_in_b_2) {};
+    \node [mini_block, below right of=uml_in_b_1, node distance=2cm, xshift=-0.7cm ] (uml_in_b_3) {};
+    
+    \node [connector, below of=uml_in_b_1, node distance=0.4cm] (uml_in_b_connector) {};
+    
+    \draw [- ] (uml_in_b_1) |- (uml_in_b_connector);
+    \draw [- ] (uml_in_b_connector) -| (uml_in_b_2);
+    \draw [- ] (uml_in_b_connector) -| (uml_in_b_3);
+    
+    \node [block, fit=(uml_in_b_1) (uml_in_b_2) (uml_in_b_3) ] (uml_in_b) {};
+    \node[label, fill=white, font=\scriptsize] at (uml_in_b.north) {Zu teilende Daten};
+
+    \node [mini_block, right of=uml_in_b_1, node distance=2cm ] (uml_out_b_1) {};
+    \node [mini_block, below of=uml_out_b_1, node distance=0.7cm ] (uml_out_b_2) {};
+    \node [mini_block, below of=uml_out_b_2, node distance=0.7cm ] (uml_out_b_3) {};
+    \node [mini_block, below right of=uml_out_b_2, node distance=1cm, xshift=0.2cm ] (uml_out_b_4) {};
+    
+    \draw [- ] (uml_out_b_1) -- (uml_out_b_2);
+    \draw [- ] (uml_out_b_2) -- (uml_out_b_3);
+    \draw [- ] (uml_out_b_2) -| (uml_out_b_4);
+    
+    \draw [- ] (uml_out_b_1) -- (uml_in_b_1);
+    
+    \node [block, above of=uml_out_b_1, node distance=2cm, anchor=east, xshift=1.1cm ] (business_logic_b) {Geschäftslogik};
+    
+    \node [block, fit=(uml_in_b) (uml_out_b_1) (uml_out_b_2) (uml_out_b_3) (uml_out_b_4) ] (data_b) {};
+    
+    \draw [-Triangle ] ([xshift=0.62cm]business_logic_b) -- (data_b);
+    
+    \node [block, fit=(uml_in_b) (uml_out_b_1) (uml_out_b_2) (uml_out_b_3) (uml_out_b_4) (business_logic_b) ] (domain_b) {};
+    \node[label, fill=white] at (domain_b.north) {Domäne B};
+    
+    % correspondences
+    
+    \node [mini_correspondence, right of=uml_in_1, node distance=2.9cm ] (corr_1) {};
+    \node [mini_correspondence, below of=corr_1, node distance=0.9cm ] (corr_2) {};
+    \node [mini_correspondence, below of=corr_2, node distance=0.54cm ] (corr_3) {};
+    
+    \node [label, above of=corr_1, node distance=1.5cm, font=\scriptsize, align=center ] (corr_desc) {Lose verknüpft\\durch Korrespondenzen,\\um Fremddaten\\in die \\eigene Domäne\\zu integrieren};
+    
+    \draw [-, dashed ] (uml_in_1.east) |- (corr_1.west);
+    \draw [-, dashed ] (uml_in_2.east) |- (corr_2.west);
+    \draw [-, dashed ] (uml_in_3.east) |- (corr_3.west);
+    
+    \draw [-, dashed ] (uml_in_b_1.west) |- (corr_1.east);
+    \draw [-, dashed ] (uml_in_b_2.west) |- (corr_2.east);
+    \draw [-, dashed ] (uml_in_b_3.west) |- (corr_3.east);
+
+\end{tikzpicture}
